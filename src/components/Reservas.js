@@ -8,9 +8,10 @@ import reservasData from './reservasData.json';
 const Reservas = ({ onCheckIn, onCheckOut }) => {
   const [reservas, setReservas] = useState(reservasData);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [editarReserva, setEditarReserva] = useState(null);
   const [novoHospede, setNovoHospede] = useState({
     nomeHospede: '',
-    cpfcnpj: '',
+    identification: '',
     email: '',
     checkIn: '',
     checkOut: '',
@@ -31,7 +32,7 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
   };
 
-  const handleCpfCnpjChange = (e) => {
+  const handleIdentificationChange = (e) => {
     let data = e.target.value.replace(/\D/g, "");
     if (data.length > 11) {
       let cnpj = `${data.substr(0, 2)}.${data.substr(2,3)}.${data.substr(5,3)}/`;
@@ -52,13 +53,13 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
       }
       data = cpf;
     }
-    setNovoHospede((values) => ({ ...values, cpfcnpj: data }));
+    setNovoHospede((values) => ({ ...values, identification: data })); 
   };
 
   const isFormValid = () => {
     return (
       novoHospede.nomeHospede &&
-      novoHospede.cpfcnpj &&
+      novoHospede.identification && 
       novoHospede.email &&
       novoHospede.checkIn &&
       novoHospede.checkOut &&
@@ -67,20 +68,9 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     );
   };
 
-  const isDuplicateHospede = () => {
-    return reservas.some(
-      (reserva) => reserva.nomeHospede.toLowerCase() === novoHospede.nomeHospede.toLowerCase()
-    );
-  };
-
   const handleAddReserva = () => {
     if (!isFormValid()) {
       alert('Preencha todos os campos antes de adicionar a reserva.');
-      return;
-    }
-
-    if (isDuplicateHospede()) {
-      alert('Este hóspede já existe. Por favor, use um nome diferente.');
       return;
     }
 
@@ -92,13 +82,41 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     setReservas([...reservas, novaReserva]);
     setNovoHospede({
       nomeHospede: '',
-      cpfcnpj: '',
+      identification: '',
       email: '',
       checkIn: '',
       checkOut: '',
       quarto: '',
       detalhesRelevantes: '',
     });
+    setMostrarFormulario(false);
+  };
+
+  const handleEditClick = (reserva) => {
+    setEditarReserva(reserva);
+    setNovoHospede(reserva);
+    setMostrarFormulario(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!isFormValid()) {
+      alert('Preencha todos os campos antes de salvar.');
+      return;
+    }
+
+    setReservas(reservas.map(reserva =>
+      reserva.id === editarReserva.id ? { ...novoHospede, id: reserva.id } : reserva
+    ));
+    setNovoHospede({
+      nomeHospede: '',
+      identification: '', 
+      email: '',
+      checkIn: '',
+      checkOut: '',
+      quarto: '',
+      detalhesRelevantes: '',
+    });
+    setEditarReserva(null);
     setMostrarFormulario(false);
   };
 
@@ -132,9 +150,9 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
             <Form.Label>CPF/CNPJ</Form.Label>
             <Form.Control
               type="text"
-              name="cpfcnpj"
-              value={novoHospede.cpfcnpj}
-              onChange={handleCpfCnpjChange}
+              name="identification" 
+              value={novoHospede.identification} 
+              onChange={handleIdentificationChange}
               required
             />
           </Form.Group>
@@ -194,8 +212,8 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
             />
           </Form.Group>
 
-          <Button variant="primary" onClick={handleAddReserva}>
-            Adicionar Reserva
+          <Button variant="primary" onClick={editarReserva ? handleSaveEdit : handleAddReserva}>
+            {editarReserva ? 'Salvar Alterações' : 'Adicionar Reserva'}
           </Button>
         </Form>
       )}
@@ -228,6 +246,13 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
                   className="me-2"
                 >
                   Check-in
+                </Button>
+                <Button
+                  variant="warning"
+                  onClick={() => handleEditClick(reserva)}
+                  className="me-2"
+                >
+                  Editar
                 </Button>
                 <Button
                   variant="danger"

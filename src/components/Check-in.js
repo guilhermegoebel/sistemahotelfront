@@ -8,7 +8,7 @@ const CheckIn = ({ reserva, onVoltar }) => {
       <h1>Check-in</h1>
       <div className="reserva-detalhes">
         <p><strong>Nome do Hóspede:</strong> {reserva.nomeHospede}</p>
-        <p><strong>CPF:</strong> {reserva.cpfcnpj}</p>
+        <p><strong>CPF ou CNPJ:</strong> {reserva.identification}</p>
         <p><strong>Email:</strong> {reserva.email}</p>
         <p><strong>Data de Check-in:</strong> {reserva.checkIn}</p>
         <p><strong>Data de Check-out:</strong> {reserva.checkOut}</p>
