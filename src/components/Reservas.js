@@ -10,7 +10,7 @@ const Reservas = ({ onCheckIn }) => {
 
   const [novoHospede, setNovoHospede] = useState({
     nomeHospede: '',
-    cpf: '',
+    identification: '',
     email: '',
     checkIn: '',
     checkOut: '',
@@ -71,6 +71,33 @@ const Reservas = ({ onCheckIn }) => {
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
   };
 
+
+  const handleCpfCnpjChange = (event) => {
+    let data = event.target.value.replace(/\D/g, "");
+    if (data.length > 11) {
+      let cnpj = `${data.substr(0, 2)}.${data.substr(2,3)}.${data.substr(5,3)}/`;
+      if (data.length > 12)
+        cnpj += `${data.substr(8, 4)}-${data.substr(12, 2)}`;
+      else
+        cnpj += data.substr(8);
+      data = cnpj;
+    } else {
+      let cpf = "";
+      let parts = Math.ceil(data.length / 3);
+      for (let i = 0; i < parts; i++) {
+        if (i === 3) {
+          cpf += `-${data.substr(i * 3)}`;
+          break;
+        }
+        cpf += `${i !== 0 ? "." : ""}${data.substr(i * 3, 3)}`;
+      }
+      data = cpf;
+    }
+    setNovoHospede((values)=>( {...values, identification: data}));
+  };
+
+  console.log(novoHospede)
+
   return (
     <div className="container mt-4">
       <h1>Lista de Reservas</h1>
@@ -93,12 +120,12 @@ const Reservas = ({ onCheckIn }) => {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>CPF</Form.Label>
+            <Form.Label>CPF/CNPJ</Form.Label>
             <Form.Control
               type="text"
-              name="cpf"
-              value={novoHospede.cpf}
-              onChange={handleInputChange}
+              name="identification"
+              value={novoHospede.identification}
+              onChange={handleCpfCnpjChange}
               required
             />
           </Form.Group>
@@ -139,7 +166,7 @@ const Reservas = ({ onCheckIn }) => {
           <Form.Group>
             <Form.Label>Quarto</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               name="quarto"
               value={novoHospede.quarto}
               onChange={handleInputChange}
