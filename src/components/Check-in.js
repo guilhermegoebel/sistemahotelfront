@@ -22,3 +22,4 @@ const CheckIn = ({ reserva, onVoltar }) => {
 };
 
 export default CheckIn;
+//check-in funcional
