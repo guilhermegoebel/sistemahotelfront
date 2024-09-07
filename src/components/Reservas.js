@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Reservas.css';
 
-const Reservas = () => {
+const Reservas = ({ onCheckIn }) => {
   const [reservas, setReservas] = useState([]);
-  const [mostrarFormulario, setMostrarFormulario] = useState(false); // Controla exibição do formulário
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
   const [novoHospede, setNovoHospede] = useState({
     nomeHospede: '',
@@ -62,27 +62,7 @@ const Reservas = () => {
 
     setReservas([...reservas, novaReserva]);
     setNovoHospede({ nomeHospede: '', cpf: '', email: '', checkIn: '', checkOut: '', quarto: '', detalhesRelevantes: '' });
-    setMostrarFormulario(false); // Ocultar o formulário após adicionar a reserva
-  };
-
-  const handleEdit = (id) => {
-    alert(`Editar reserva com ID: ${id}`);
-  };
-
-  const handleDelete = (id) => {
-    setReservas(reservas.filter((reserva) => reserva.id !== id));
-  };
-
-  const handleCheckIn = (id) => {
-    alert(`Check-in para a reserva com ID: ${id}`);
-  };
-
-  const handleCheckOut = (id) => {
-    alert(`Check-out para a reserva com ID: ${id}`);
-  };
-
-  const handleView = (id) => {
-    alert(`Visualizar detalhes da reserva com ID: ${id}`);
+    setMostrarFormulario(false);
   };
 
   // Função para formatar a data
@@ -101,78 +81,80 @@ const Reservas = () => {
 
       {mostrarFormulario && (
         <Form className="mb-4 mt-4">
-          <Form.Group controlId="formNomeHospede" className="mb-2">
+          <Form.Group>
             <Form.Label>Nome do Hóspede</Form.Label>
             <Form.Control
               type="text"
               name="nomeHospede"
               value={novoHospede.nomeHospede}
               onChange={handleInputChange}
-              placeholder="Nome do Hóspede"
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formCpf" className="mb-2">
+          <Form.Group>
             <Form.Label>CPF</Form.Label>
             <Form.Control
               type="text"
               name="cpf"
               value={novoHospede.cpf}
               onChange={handleInputChange}
-              placeholder="CPF"
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formEmail" className="mb-2">
+          <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               name="email"
               value={novoHospede.email}
               onChange={handleInputChange}
-              placeholder="Email"
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formCheckIn" className="mb-2">
+          <Form.Group>
             <Form.Label>Data de Check-in</Form.Label>
             <Form.Control
               type="date"
               name="checkIn"
               value={novoHospede.checkIn}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formCheckOut" className="mb-2">
+          <Form.Group>
             <Form.Label>Data de Check-out</Form.Label>
             <Form.Control
               type="date"
               name="checkOut"
               value={novoHospede.checkOut}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formQuarto" className="mb-2">
+          <Form.Group>
             <Form.Label>Quarto</Form.Label>
             <Form.Control
               type="text"
               name="quarto"
               value={novoHospede.quarto}
               onChange={handleInputChange}
-              placeholder="Número do Quarto"
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formDetalhesRelevantes" className="mb-2">
+          <Form.Group>
             <Form.Label>Detalhes Relevantes</Form.Label>
             <Form.Control
-              type="text"
+              as="textarea"
               name="detalhesRelevantes"
               value={novoHospede.detalhesRelevantes}
               onChange={handleInputChange}
-              placeholder="Ex: Preferência de andar, vista do quarto, etc."
+              required
             />
           </Form.Group>
 
@@ -199,16 +181,14 @@ const Reservas = () => {
             <tr key={reserva.id}>
               <td>{reserva.id}</td>
               <td>{reserva.nomeHospede}</td>
-              <td>{formatarData(reserva.checkIn)}</td> {/* Formatar data */}
-              <td>{formatarData(reserva.checkOut)}</td> {/* Formatar data */}
+              <td>{formatarData(reserva.checkIn)}</td>
+              <td>{formatarData(reserva.checkOut)}</td>
               <td>{reserva.quarto}</td>
               <td>{reserva.detalhesRelevantes}</td>
               <td>
-                <Button variant="warning" onClick={() => handleEdit(reserva.id)} className="btn">Editar</Button>
-                <Button variant="danger" onClick={() => handleDelete(reserva.id)} className="btn">Excluir</Button>
-                <Button variant="success" onClick={() => handleCheckIn(reserva.id)} className="btn">Check-in</Button>
-                <Button variant="info" onClick={() => handleCheckOut(reserva.id)} className="btn">Check-out</Button>
-                <Button variant="primary" onClick={() => handleView(reserva.id)} className="btn">Visualizar</Button>
+                <div className="btn-group">
+                  <Button variant="success" onClick={() => onCheckIn(reserva)} className="btn">Check-in</Button>
+                </div>
               </td>
             </tr>
           ))}

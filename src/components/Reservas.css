@@ -1,119 +1,96 @@
-/* Estilos gerais */
-.container {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Cabeçalho */
-  h1 {
-    color: #007bff;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Formulário */
-  form {
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  form label {
-    font-weight: bold;
-    color: #343a40;
-  }
-  
-  form input {
-    border-radius: 5px;
-    border: 1px solid #ced4da;
-  }
-  
-  form input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  button {
-    margin-top: 10px;
-    border-radius: 5px;
-  }
-  
-  /* Tabela */
-  .table {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .table th {
-    background-color: #007bff;
-    color: #ffffff;
-    text-align: center;
-    padding: 10px;
-  }
-  
-  .table td {
-    text-align: center;
-    padding: 10px;
-  }
-  
-  /* Botões */
-  .btn {
-    margin: 0 5px;
-    font-size: 14px;
-  }
-  
-  .btn-warning {
-    background-color: #ffc107;
-    border: none;
-  }
-  
-  .btn-danger {
-    background-color: #dc3545;
-    border: none;
-  }
-  
-  .btn-success {
-    background-color: #28a745;
-    border: none;
-  }
-  
-  .btn-info {
-    background-color: #17a2b8;
-    border: none;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    border: none;
-  }
-  
-  .btn:hover {
-    opacity: 0.85;
-  }
-  
-  /* Efeitos de hover na tabela */
-  .table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .container {
+/* Tabela */
+.table {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+  background-color: #007bff;
+  color: #ffffff;
+  text-align: center;
+  padding: 5px; /* Reduce padding */
+  font-size: 14px; /* Reduce font size */
+}
+
+.table td {
+  text-align: center;
+  padding: 5px; /* Reduce padding */
+  font-size: 14px; /* Reduce font size */
+}
+
+/* Botões */
+.btn-group {
+  display: flex;
+  gap: 10px; /* Reduce spacing between buttons */
+  margin-top: 5px;
+}
+
+.btn-group .btn {
+  flex: 1;
+  margin: 0 3px;
+  font-size: 12px; /* Reduce button font size */
+  min-width: 80px; /* Reduce button width */
+  height: 30px; /* Reduce button height */
+}
+
+/* Mover o botão "Visualizar" para o lado dos outros */
+.btn-group .btn-visualizar {
+  flex: 1;
+  margin: 0 3px;
+  height: 30px; /* Same height as other buttons */
+}
+
+/* Botões específicos */
+.btn-warning {
+  background-color: #ffe493;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #f99ba5;
+  border: none;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border: none;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* Efeitos de hover na tabela */
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
       padding: 10px;
-    }
-  
-    h1 {
-      font-size: 24px;
-    }
-  
-    .btn {
-      font-size: 12px;
-      padding: 5px 10px;
-    } 
   }
-  
+
+  h1 {
+      font-size: 24px;
+  }
+
+  .btn-group {
+      flex-direction: column;
+  }
+
+  .btn-group .btn {
+      margin-bottom: 10px;
+  }
+}
