@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import CheckIn from './Check-in';
 import './Reservas.css';
 import reservasData from './reservasData.json';
 
-const Reservas = ({ onCheckIn, onCheckOut }) => {
+const Reservas = () => {
   const [reservas, setReservas] = useState(reservasData);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editarReserva, setEditarReserva] = useState(null);
@@ -18,6 +19,7 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     quarto: '',
     detalhesRelevantes: '',
   });
+  const [reservaAtual, setReservaAtual] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -77,6 +79,7 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     const novaReserva = {
       ...novoHospede,
       id: reservas.length + 1,
+      checkInRealizado: false, // Inicialmente, o check-in não foi realizado
     };
 
     setReservas([...reservas, novaReserva]);
@@ -120,14 +123,35 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     setMostrarFormulario(false);
   };
 
+  const handleCheckIn = (reserva) => {
+    setReservaAtual(reserva);
+  };
+
+  const handleConfirmCheckIn = (reserva) => {
+    setReservas(reservas.map(r =>
+      r.id === reserva.id ? { ...r, checkInRealizado: true } : r
+    ));
+    setReservaAtual(null); // Fechar o formulário de check-in após a confirmação
+  };
+
   const handleCheckOut = (reserva) => {
-    onCheckOut(reserva);
     setReservas(reservas.filter(r => r.id !== reserva.id));
   };
+
+  // Ordenar as reservas para que as com check-in realizado fiquem no topo
+  const reservasOrdenadas = [...reservas].sort((a, b) => b.checkInRealizado - a.checkInRealizado);
 
   return (
     <div className="container mt-4">
       <h1>Lista de Reservas</h1>
+
+      {reservaAtual && (
+        <CheckIn 
+          reserva={reservaAtual}
+          onVoltar={() => setReservaAtual(null)}
+          onConfirmCheckIn={handleConfirmCheckIn}
+        />
+      )}
 
       <Button variant="primary" onClick={() => setMostrarFormulario(!mostrarFormulario)}>
         {mostrarFormulario ? 'Fechar Formulário' : 'Adicionar Reserva'}
@@ -231,7 +255,7 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
           </tr>
         </thead>
         <tbody>
-          {reservas.map((reserva) => (
+          {reservasOrdenadas.map((reserva) => (
             <tr key={reserva.id}>
               <td>{reserva.id}</td>
               <td>{reserva.nomeHospede}</td>
@@ -240,13 +264,15 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
               <td>{reserva.quarto}</td>
               <td>{reserva.detalhesRelevantes}</td>
               <td>
-                <Button
-                  variant="success"
-                  onClick={() => onCheckIn(reserva)}
-                  className="me-2"
-                >
-                  Check-in
-                </Button>
+                {!reserva.checkInRealizado && (
+                  <Button
+                    variant="success"
+                    onClick={() => handleCheckIn(reserva)}
+                    className="me-2"
+                  >
+                    Check-in
+                  </Button>
+                )}
                 <Button
                   variant="warning"
                   onClick={() => handleEditClick(reserva)}
