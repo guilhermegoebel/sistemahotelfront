@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import CheckIn from './Check-in';
 import './Reservas.css';
 import reservasData from './reservasData.json';
 
-const Reservas = ({ onCheckIn, onCheckOut }) => {
+const Reservas = () => {
   const [reservas, setReservas] = useState(reservasData);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [editarReserva, setEditarReserva] = useState(null);
   const [novoHospede, setNovoHospede] = useState({
     nomeHospede: '',
-    cpfcnpj: '',
+    identification: '',
     email: '',
     checkIn: '',
     checkOut: '',
     quarto: '',
     detalhesRelevantes: '',
   });
+  const [reservaAtual, setReservaAtual] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +34,7 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
   };
 
-  const handleCpfCnpjChange = (e) => {
+  const handleIdentificationChange = (e) => {
     let data = e.target.value.replace(/\D/g, "");
     if (data.length > 11) {
       let cnpj = `${data.substr(0, 2)}.${data.substr(2,3)}.${data.substr(5,3)}/`;
@@ -52,24 +55,18 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
       }
       data = cpf;
     }
-    setNovoHospede((values) => ({ ...values, cpfcnpj: data }));
+    setNovoHospede((values) => ({ ...values, identification: data })); 
   };
 
   const isFormValid = () => {
     return (
       novoHospede.nomeHospede &&
-      novoHospede.cpfcnpj &&
+      novoHospede.identification && 
       novoHospede.email &&
       novoHospede.checkIn &&
       novoHospede.checkOut &&
       novoHospede.quarto &&
       novoHospede.detalhesRelevantes
-    );
-  };
-
-  const isDuplicateHospede = () => {
-    return reservas.some(
-      (reserva) => reserva.nomeHospede.toLowerCase() === novoHospede.nomeHospede.toLowerCase()
     );
   };
 
@@ -79,20 +76,16 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
       return;
     }
 
-    if (isDuplicateHospede()) {
-      alert('Este hóspede já existe. Por favor, use um nome diferente.');
-      return;
-    }
-
     const novaReserva = {
       ...novoHospede,
       id: reservas.length + 1,
+      checkInRealizado: false, // Inicialmente, o check-in não foi realizado
     };
 
     setReservas([...reservas, novaReserva]);
     setNovoHospede({
       nomeHospede: '',
-      cpfcnpj: '',
+      identification: '',
       email: '',
       checkIn: '',
       checkOut: '',
@@ -102,14 +95,63 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
     setMostrarFormulario(false);
   };
 
+  const handleEditClick = (reserva) => {
+    setEditarReserva(reserva);
+    setNovoHospede(reserva);
+    setMostrarFormulario(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!isFormValid()) {
+      alert('Preencha todos os campos antes de salvar.');
+      return;
+    }
+
+    setReservas(reservas.map(reserva =>
+      reserva.id === editarReserva.id ? { ...novoHospede, id: reserva.id } : reserva
+    ));
+    setNovoHospede({
+      nomeHospede: '',
+      identification: '', 
+      email: '',
+      checkIn: '',
+      checkOut: '',
+      quarto: '',
+      detalhesRelevantes: '',
+    });
+    setEditarReserva(null);
+    setMostrarFormulario(false);
+  };
+
+  const handleCheckIn = (reserva) => {
+    setReservaAtual(reserva);
+  };
+
+  const handleConfirmCheckIn = (reserva) => {
+    setReservas(reservas.map(r =>
+      r.id === reserva.id ? { ...r, checkInRealizado: true } : r
+    ));
+    setReservaAtual(null); // Fechar o formulário de check-in após a confirmação
+  };
+
   const handleCheckOut = (reserva) => {
-    onCheckOut(reserva);
     setReservas(reservas.filter(r => r.id !== reserva.id));
   };
+
+  // Ordenar as reservas para que as com check-in realizado fiquem no topo
+  const reservasOrdenadas = [...reservas].sort((a, b) => b.checkInRealizado - a.checkInRealizado);
 
   return (
     <div className="container mt-4">
       <h1>Lista de Reservas</h1>
+
+      {reservaAtual && (
+        <CheckIn 
+          reserva={reservaAtual}
+          onVoltar={() => setReservaAtual(null)}
+          onConfirmCheckIn={handleConfirmCheckIn}
+        />
+      )}
 
       <Button variant="primary" onClick={() => setMostrarFormulario(!mostrarFormulario)}>
         {mostrarFormulario ? 'Fechar Formulário' : 'Adicionar Reserva'}
@@ -132,9 +174,9 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
             <Form.Label>CPF/CNPJ</Form.Label>
             <Form.Control
               type="text"
-              name="cpfcnpj"
-              value={novoHospede.cpfcnpj}
-              onChange={handleCpfCnpjChange}
+              name="identification" 
+              value={novoHospede.identification} 
+              onChange={handleIdentificationChange}
               required
             />
           </Form.Group>
@@ -194,8 +236,8 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
             />
           </Form.Group>
 
-          <Button variant="primary" onClick={handleAddReserva}>
-            Adicionar Reserva
+          <Button variant="primary" onClick={editarReserva ? handleSaveEdit : handleAddReserva}>
+            {editarReserva ? 'Salvar Alterações' : 'Adicionar Reserva'}
           </Button>
         </Form>
       )}
@@ -213,7 +255,7 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
           </tr>
         </thead>
         <tbody>
-          {reservas.map((reserva) => (
+          {reservasOrdenadas.map((reserva) => (
             <tr key={reserva.id}>
               <td>{reserva.id}</td>
               <td>{reserva.nomeHospede}</td>
@@ -222,12 +264,21 @@ const Reservas = ({ onCheckIn, onCheckOut }) => {
               <td>{reserva.quarto}</td>
               <td>{reserva.detalhesRelevantes}</td>
               <td>
+                {!reserva.checkInRealizado && (
+                  <Button
+                    variant="success"
+                    onClick={() => handleCheckIn(reserva)}
+                    className="me-2"
+                  >
+                    Check-in
+                  </Button>
+                )}
                 <Button
-                  variant="success"
-                  onClick={() => onCheckIn(reserva)}
+                  variant="warning"
+                  onClick={() => handleEditClick(reserva)}
                   className="me-2"
                 >
-                  Check-in
+                  Editar
                 </Button>
                 <Button
                   variant="danger"
