@@ -5,10 +5,9 @@ import Form from 'react-bootstrap/Form';
 import './Reservas.css';
 import reservasData from './reservasData.json';
 
-const Reservas = ({ onCheckIn }) => {
+const Reservas = ({ onCheckIn, onCheckOut }) => {
   const [reservas, setReservas] = useState(reservasData);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-
   const [novoHospede, setNovoHospede] = useState({
     nomeHospede: '',
     cpfcnpj: '',
@@ -101,6 +100,11 @@ const Reservas = ({ onCheckIn }) => {
       detalhesRelevantes: '',
     });
     setMostrarFormulario(false);
+  };
+
+  const handleCheckOut = (reserva) => {
+    onCheckOut(reserva);
+    setReservas(reservas.filter(r => r.id !== reserva.id));
   };
 
   return (
@@ -218,11 +222,19 @@ const Reservas = ({ onCheckIn }) => {
               <td>{reserva.quarto}</td>
               <td>{reserva.detalhesRelevantes}</td>
               <td>
-                <div className="btn-group">
-                  <Button variant="success" onClick={() => onCheckIn(reserva)} className="btn">
-                    Check-in
-                  </Button>
-                </div>
+                <Button
+                  variant="success"
+                  onClick={() => onCheckIn(reserva)}
+                  className="me-2"
+                >
+                  Check-in
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleCheckOut(reserva)}
+                >
+                  Check-out
+                </Button>
               </td>
             </tr>
           ))}

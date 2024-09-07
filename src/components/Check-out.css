@@ -1,0 +1,39 @@
+.container {
+    margin-top: 2rem;
+  }
+  
+  h1 {
+    color: #343a40; /* Cor do título, para manter consistência com o resto do programa */
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .table {
+    background-color: #ffffff; /* Cor de fundo das tabelas */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+  
+  .table thead th {
+    background-color: #007bff; /* Cor de fundo para o cabeçalho da tabela */
+    color: #ffffff; /* Cor do texto do cabeçalho */
+  }
+  
+  .table tbody tr {
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f1f1f1; /* Cor de fundo ao passar o mouse sobre as linhas */
+  }
+  
+  p {
+    background-color: #ffeb3b; /* Cor de fundo do alerta */
+    color: #343a40; /* Cor do texto */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas para combinar com o resto do estilo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para o alerta */
+    text-align: center; /* Texto centralizado */
+    font-weight: bold; /* Texto em negrito */
+  }
+  
