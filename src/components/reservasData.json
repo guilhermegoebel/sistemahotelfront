@@ -1,0 +1,303 @@
+[
+    {
+      "id": 1,
+      "nomeHospede": "João Silva",
+      "cpfcnpj": "123.456.789-10",
+      "email": "joao.silva@email.com",
+      "checkIn": "2024-09-10",
+      "checkOut": "2024-09-15",
+      "quarto": "101",
+      "detalhesRelevantes": "Precisa de berço no quarto."
+    },
+    {
+      "id": 2,
+      "nomeHospede": "Maria Oliveira",
+      "cpfcnpj": "12.345.678/0001-90",
+      "email": "maria.oliveira@email.com",
+      "checkIn": "2024-09-12",
+      "checkOut": "2024-09-18",
+      "quarto": "102",
+      "detalhesRelevantes": "Hóspede com alergia a amendoim."
+    },
+    {
+      "id": 3,
+      "nomeHospede": "Carlos Pereira",
+      "cpfcnpj": "345.678.901-23",
+      "email": "carlos.pereira@email.com",
+      "checkIn": "2024-09-14",
+      "checkOut": "2024-09-20",
+      "quarto": "103",
+      "detalhesRelevantes": "Solicitou check-out tardio."
+    },
+    {
+      "id": 4,
+      "nomeHospede": "Ana Costa",
+      "cpfcnpj": "23.456.789/0001-12",
+      "email": "ana.costa@email.com",
+      "checkIn": "2024-09-16",
+      "checkOut": "2024-09-21",
+      "quarto": "104",
+      "detalhesRelevantes": "Precisa de uma cadeira de rodas."
+    },
+    {
+      "id": 5,
+      "nomeHospede": "Pedro Souza",
+      "cpfcnpj": "567.890.123-45",
+      "email": "pedro.souza@email.com",
+      "checkIn": "2024-09-18",
+      "checkOut": "2024-09-23",
+      "quarto": "105",
+      "detalhesRelevantes": "Hóspede está em lua de mel."
+    },
+    {
+      "id": 6,
+      "nomeHospede": "Fernanda Lima",
+      "cpfcnpj": "34.567.890/0001-56",
+      "email": "fernanda.lima@email.com",
+      "checkIn": "2024-09-20",
+      "checkOut": "2024-09-25",
+      "quarto": "106",
+      "detalhesRelevantes": "Solicitou travesseiros extras."
+    },
+    {
+      "id": 7,
+      "nomeHospede": "Lucas Santos",
+      "cpfcnpj": "789.012.345-67",
+      "email": "lucas.santos@email.com",
+      "checkIn": "2024-09-22",
+      "checkOut": "2024-09-28",
+      "quarto": "107",
+      "detalhesRelevantes": "Necessita de adaptador de tomada."
+    },
+    {
+      "id": 8,
+      "nomeHospede": "Paula Ferreira",
+      "cpfcnpj": "890.123.456-78",
+      "email": "paula.ferreira@email.com",
+      "checkIn": "2024-09-24",
+      "checkOut": "2024-09-30",
+      "quarto": "108",
+      "detalhesRelevantes": "Vegetariana, solicitou cardápio especial."
+    },
+    {
+      "id": 9,
+      "nomeHospede": "Roberto Almeida",
+      "cpfcnpj": "45.678.901/0001-34",
+      "email": "roberto.almeida@email.com",
+      "checkIn": "2024-09-26",
+      "checkOut": "2024-10-01",
+      "quarto": "109",
+      "detalhesRelevantes": "Precisa de uma sala de reuniões."
+    },
+    {
+      "id": 10,
+      "nomeHospede": "Juliana Rodrigues",
+      "cpfcnpj": "012.345.678-90",
+      "email": "juliana.rodrigues@email.com",
+      "checkIn": "2024-09-28",
+      "checkOut": "2024-10-03",
+      "quarto": "110",
+      "detalhesRelevantes": "Chegada de madrugada."
+    },
+    {
+      "id": 11,
+      "nomeHospede": "Rafael Moreira",
+      "cpfcnpj": "12.345.678/0002-90",
+      "email": "rafael.moreira@email.com",
+      "checkIn": "2024-09-30",
+      "checkOut": "2024-10-05",
+      "quarto": "111",
+      "detalhesRelevantes": "Hóspede frequente, solicitou desconto."
+    },
+    {
+      "id": 12,
+      "nomeHospede": "Gabriela Cunha",
+      "cpfcnpj": "234.567.890-12",
+      "email": "gabriela.cunha@email.com",
+      "checkIn": "2024-10-02",
+      "checkOut": "2024-10-07",
+      "quarto": "112",
+      "detalhesRelevantes": "Quarto para não fumante."
+    },
+    {
+      "id": 13,
+      "nomeHospede": "Leonardo Martins",
+      "cpfcnpj": "56.789.012/0001-45",
+      "email": "leonardo.martins@email.com",
+      "checkIn": "2024-10-04",
+      "checkOut": "2024-10-10",
+      "quarto": "113",
+      "detalhesRelevantes": "Solicitou serviço de lavanderia."
+    },
+    {
+      "id": 14,
+      "nomeHospede": "Camila Dias",
+      "cpfcnpj": "456.789.012-34",
+      "email": "camila.dias@email.com",
+      "checkIn": "2024-10-06",
+      "checkOut": "2024-10-12",
+      "quarto": "114",
+      "detalhesRelevantes": "Precisa de serviço de babá."
+    },
+    {
+      "id": 15,
+      "nomeHospede": "Felipe Barbosa",
+      "cpfcnpj": "67.890.123/0001-56",
+      "email": "felipe.barbosa@email.com",
+      "checkIn": "2024-10-08",
+      "checkOut": "2024-10-14",
+      "quarto": "115",
+      "detalhesRelevantes": "Hóspede com animal de estimação."
+    },
+    {
+      "id": 16,
+      "nomeHospede": "Renata Silva",
+      "cpfcnpj": "678.901.234-56",
+      "email": "renata.silva@email.com",
+      "checkIn": "2024-10-10",
+      "checkOut": "2024-10-16",
+      "quarto": "116",
+      "detalhesRelevantes": "Quarto com vista para o mar."
+    },
+    {
+      "id": 17,
+      "nomeHospede": "Thiago Costa",
+      "cpfcnpj": "78.901.234/0001-67",
+      "email": "thiago.costa@email.com",
+      "checkIn": "2024-10-12",
+      "checkOut": "2024-10-18",
+      "quarto": "117",
+      "detalhesRelevantes": "Precisa de estacionamento reservado."
+    },
+    {
+      "id": 18,
+      "nomeHospede": "Larissa Gonçalves",
+      "cpfcnpj": "890.123.456-78",
+      "email": "larissa.goncalves@email.com",
+      "checkIn": "2024-10-14",
+      "checkOut": "2024-10-20",
+      "quarto": "118",
+      "detalhesRelevantes": "Solicitou um jantar romântico."
+    },
+    {
+      "id": 19,
+      "nomeHospede": "Bruno Souza",
+      "cpfcnpj": "901.234.567-89",
+      "email": "bruno.souza@email.com",
+      "checkIn": "2024-10-16",
+      "checkOut": "2024-10-22",
+      "quarto": "119",
+      "detalhesRelevantes": "Precisa de mesa de trabalho no quarto."
+    },
+    {
+        "id": 20,
+        "nomeHospede": "Isabela Lopes",
+        "cpfcnpj": "012.345.678-90",
+        "email": "isabela.lopes@email.com",
+        "checkIn": "2024-10-18",
+        "checkOut": "2024-10-24",
+        "quarto": "120",
+        "detalhesRelevantes": "Solicitou check-out antecipado."
+      },
+      {
+        "id": 21,
+        "nomeHospede": "Eduardo Lima",
+        "cpfcnpj": "12.345.678/0003-90",
+        "email": "eduardo.lima@email.com",
+        "checkIn": "2024-10-20",
+        "checkOut": "2024-10-26",
+        "quarto": "121",
+        "detalhesRelevantes": "Precisa de frigobar abastecido."
+      },
+      {
+        "id": 22,
+        "nomeHospede": "Beatriz Castro",
+        "cpfcnpj": "234.567.890-12",
+        "email": "beatriz.castro@email.com",
+        "checkIn": "2024-10-22",
+        "checkOut": "2024-10-28",
+        "quarto": "122",
+        "detalhesRelevantes": "Hóspede com mobilidade reduzida."
+      },
+      {
+        "id": 23,
+        "nomeHospede": "Marcelo Teixeira",
+        "cpfcnpj": "12.345.678/0004-12",
+        "email": "marcelo.teixeira@email.com",
+        "checkIn": "2024-10-24",
+        "checkOut": "2024-10-30",
+        "quarto": "123",
+        "detalhesRelevantes": "Necessita de ferro de passar roupas."
+      },
+      {
+        "id": 24,
+        "nomeHospede": "Carla Mendes",
+        "cpfcnpj": "456.789.012-34",
+        "email": "carla.mendes@email.com",
+        "checkIn": "2024-10-26",
+        "checkOut": "2024-11-01",
+        "quarto": "124",
+        "detalhesRelevantes": "Solicitou transfer para o aeroporto."
+      },
+      {
+        "id": 25,
+        "nomeHospede": "André Ribeiro",
+        "cpfcnpj": "67.890.123/0005-23",
+        "email": "andre.ribeiro@email.com",
+        "checkIn": "2024-10-28",
+        "checkOut": "2024-11-03",
+        "quarto": "125",
+        "detalhesRelevantes": "Quarto próximo ao elevador."
+      },
+      {
+        "id": 26,
+        "nomeHospede": "Patrícia Fernandes",
+        "cpfcnpj": "678.901.234-56",
+        "email": "patricia.fernandes@email.com",
+        "checkIn": "2024-10-30",
+        "checkOut": "2024-11-05",
+        "quarto": "126",
+        "detalhesRelevantes": "Precisa de um ventilador extra."
+      },
+      {
+        "id": 27,
+        "nomeHospede": "Ricardo Carvalho",
+        "cpfcnpj": "789.012.345-67",
+        "email": "ricardo.carvalho@email.com",
+        "checkIn": "2024-11-01",
+        "checkOut": "2024-11-07",
+        "quarto": "127",
+        "detalhesRelevantes": "Solicitou café da manhã no quarto."
+      },
+      {
+        "id": 28,
+        "nomeHospede": "Amanda Nunes",
+        "cpfcnpj": "890.123.456-78",
+        "email": "amanda.nunes@email.com",
+        "checkIn": "2024-11-03",
+        "checkOut": "2024-11-09",
+        "quarto": "128",
+        "detalhesRelevantes": "Viagem a trabalho, precisa de Wi-Fi rápido."
+      },
+      {
+        "id": 29,
+        "nomeHospede": "Rodrigo Neves",
+        "cpfcnpj": "12.345.678/0006-34",
+        "email": "rodrigo.neves@email.com",
+        "checkIn": "2024-11-05",
+        "checkOut": "2024-11-11",
+        "quarto": "129",
+        "detalhesRelevantes": "Hóspede quer pagamento em dinheiro."
+      },
+      {
+        "id": 30,
+        "nomeHospede": "Sofia Guimarães",
+        "cpfcnpj": "012.345.678-90",
+        "email": "sofia.guimaraes@email.com",
+        "checkIn": "2024-11-07",
+        "checkOut": "2024-11-13",
+        "quarto": "130",
+        "detalhesRelevantes": "Solicitou decoração especial para aniversário."
+      }
+    ]
+    

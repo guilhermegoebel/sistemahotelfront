@@ -3,14 +3,15 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Reservas.css';
+import reservasData from './reservasData.json';
 
 const Reservas = ({ onCheckIn }) => {
-  const [reservas, setReservas] = useState([]);
+  const [reservas, setReservas] = useState(reservasData);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
   const [novoHospede, setNovoHospede] = useState({
     nomeHospede: '',
-    identification: '',
+    cpfcnpj: '',
     email: '',
     checkIn: '',
     checkOut: '',
@@ -26,15 +27,44 @@ const Reservas = ({ onCheckIn }) => {
     });
   };
 
+  const formatarData = (data) => {
+    const partes = data.split('-');
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+  };
+
+  const handleCpfCnpjChange = (e) => {
+    let data = e.target.value.replace(/\D/g, "");
+    if (data.length > 11) {
+      let cnpj = `${data.substr(0, 2)}.${data.substr(2,3)}.${data.substr(5,3)}/`;
+      if (data.length > 12)
+        cnpj += `${data.substr(8, 4)}-${data.substr(12, 2)}`;
+      else
+        cnpj += data.substr(8);
+      data = cnpj;
+    } else {
+      let cpf = "";
+      let parts = Math.ceil(data.length / 3);
+      for (let i = 0; i < parts; i++) {
+        if (i === 3) {
+          cpf += `-${data.substr(i * 3)}`;
+          break;
+        }
+        cpf += `${i !== 0 ? "." : ""}${data.substr(i * 3, 3)}`;
+      }
+      data = cpf;
+    }
+    setNovoHospede((values) => ({ ...values, cpfcnpj: data }));
+  };
+
   const isFormValid = () => {
     return (
-      novoHospede.nomeHospede !== '' &&
-      novoHospede.cpf !== '' &&
-      novoHospede.email !== '' &&
-      novoHospede.checkIn !== '' &&
-      novoHospede.checkOut !== '' &&
-      novoHospede.quarto !== '' &&
-      novoHospede.detalhesRelevantes !== ''
+      novoHospede.nomeHospede &&
+      novoHospede.cpfcnpj &&
+      novoHospede.email &&
+      novoHospede.checkIn &&
+      novoHospede.checkOut &&
+      novoHospede.quarto &&
+      novoHospede.detalhesRelevantes
     );
   };
 
@@ -61,42 +91,17 @@ const Reservas = ({ onCheckIn }) => {
     };
 
     setReservas([...reservas, novaReserva]);
-    setNovoHospede({ nomeHospede: '', cpf: '', email: '', checkIn: '', checkOut: '', quarto: '', detalhesRelevantes: '' });
+    setNovoHospede({
+      nomeHospede: '',
+      cpfcnpj: '',
+      email: '',
+      checkIn: '',
+      checkOut: '',
+      quarto: '',
+      detalhesRelevantes: '',
+    });
     setMostrarFormulario(false);
   };
-
-  // Função para formatar a data
-  const formatarData = (data) => {
-    const partes = data.split('-');
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
-  };
-
-
-  const handleCpfCnpjChange = (event) => {
-    let data = event.target.value.replace(/\D/g, "");
-    if (data.length > 11) {
-      let cnpj = `${data.substr(0, 2)}.${data.substr(2,3)}.${data.substr(5,3)}/`;
-      if (data.length > 12)
-        cnpj += `${data.substr(8, 4)}-${data.substr(12, 2)}`;
-      else
-        cnpj += data.substr(8);
-      data = cnpj;
-    } else {
-      let cpf = "";
-      let parts = Math.ceil(data.length / 3);
-      for (let i = 0; i < parts; i++) {
-        if (i === 3) {
-          cpf += `-${data.substr(i * 3)}`;
-          break;
-        }
-        cpf += `${i !== 0 ? "." : ""}${data.substr(i * 3, 3)}`;
-      }
-      data = cpf;
-    }
-    setNovoHospede((values)=>( {...values, identification: data}));
-  };
-
-  console.log(novoHospede)
 
   return (
     <div className="container mt-4">
@@ -123,8 +128,8 @@ const Reservas = ({ onCheckIn }) => {
             <Form.Label>CPF/CNPJ</Form.Label>
             <Form.Control
               type="text"
-              name="identification"
-              value={novoHospede.identification}
+              name="cpfcnpj"
+              value={novoHospede.cpfcnpj}
               onChange={handleCpfCnpjChange}
               required
             />
@@ -214,7 +219,9 @@ const Reservas = ({ onCheckIn }) => {
               <td>{reserva.detalhesRelevantes}</td>
               <td>
                 <div className="btn-group">
-                  <Button variant="success" onClick={() => onCheckIn(reserva)} className="btn">Check-in</Button>
+                  <Button variant="success" onClick={() => onCheckIn(reserva)} className="btn">
+                    Check-in
+                  </Button>
                 </div>
               </td>
             </tr>
