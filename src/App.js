@@ -1,32 +1,24 @@
 import React, { useState } from 'react';
-import Reservas from './components/Reservas.js';
-import CheckIn from './components/Check-in.js';
-import CheckOut from './components/Check-out.js';
+import Reservas from './components/Reservas';
+import CheckOut from './components/Check-out';
+import CheckIn from './components/Check-in';
 
 function App() {
   const [reservaSelecionada, setReservaSelecionada] = useState(null);
   const [estadiasConcluidas, setEstadiasConcluidas] = useState([]);
 
-  const handleCheckIn = (reserva) => {
-    setReservaSelecionada(reserva);
-  };
-
-  const handleVoltar = () => {
-    setReservaSelecionada(null);
-  };
-
   const handleCheckOut = (reserva) => {
     setEstadiasConcluidas([...estadiasConcluidas, reserva]);
-    alert("Adicionado a estadias concluídas");
+    alert("Reserva movida para check-out concluído.");
   };
 
   return (
     <div className="App">
       {reservaSelecionada ? (
-        <CheckIn reserva={reservaSelecionada} onVoltar={handleVoltar} />
+        <CheckIn reserva={reservaSelecionada} onVoltar={() => setReservaSelecionada(null)} />
       ) : (
         <>
-          <Reservas onCheckIn={handleCheckIn} onCheckOut={handleCheckOut} />
+          <Reservas onCheckOut={handleCheckOut} />
           <CheckOut estadiasConcluidas={estadiasConcluidas} />
         </>
       )}
@@ -35,4 +27,3 @@ function App() {
 }
 
 export default App;
-

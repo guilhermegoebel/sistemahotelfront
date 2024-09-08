@@ -6,7 +6,7 @@ import CheckIn from './Check-in';
 import './Reservas.css';
 import reservasData from './reservasData.json';
 
-const Reservas = () => {
+const Reservas = ({ onCheckOut }) => {
   const [reservas, setReservas] = useState(reservasData);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [editarReserva, setEditarReserva] = useState(null);
@@ -17,9 +17,9 @@ const Reservas = () => {
     cpf: '',
     dataCheckin: '',
     dataCheckout: '',
-    numeroCriancas: '',
-    numeroAdultos: '',
-    numeroQuartos: '',
+    numeroCrianca: '',
+    numeroAdulto: '',
+    numeroQuarto: '',
   });
   const [reservaAtual, setReservaAtual] = useState(null);
 
@@ -32,7 +32,7 @@ const Reservas = () => {
   };
 
   const formatarData = (data) => {
-    if (!data) return ''; // Verifica se há uma data para formatar
+    if (!data) return '';
     const partes = data.split('-');
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
   };
@@ -45,9 +45,9 @@ const Reservas = () => {
       novoHospede.cpf &&
       novoHospede.dataCheckin &&
       novoHospede.dataCheckout &&
-      novoHospede.numeroCriancas &&
-      novoHospede.numeroAdultos &&
-      novoHospede.numeroQuartos
+      novoHospede.numeroCrianca &&
+      novoHospede.numeroAdulto &&
+      novoHospede.numeroQuarto
     );
   };
 
@@ -60,7 +60,7 @@ const Reservas = () => {
     const novaReserva = {
       ...novoHospede,
       id: reservas.length + 1,
-      checkInRealizado: false, // Inicialmente, o check-in não foi realizado
+      checkInRealizado: false,
     };
 
     setReservas([...reservas, novaReserva]);
@@ -71,9 +71,9 @@ const Reservas = () => {
       cpf: '',
       dataCheckin: '',
       dataCheckout: '',
-      numeroCriancas: '',
-      numeroAdultos: '',
-      numeroQuartos: '',
+      numeroCrianca: '',
+      numeroAdulto: '',
+      numeroQuarto: '',
     });
     setMostrarFormulario(false);
   };
@@ -100,9 +100,9 @@ const Reservas = () => {
       cpf: '',
       dataCheckin: '',
       dataCheckout: '',
-      numeroCriancas: '',
-      numeroAdultos: '',
-      numeroQuartos: '',
+      numeroCrianca: '',
+      numeroAdulto: '',
+      numeroQuarto: '',
     });
     setEditarReserva(null);
     setMostrarFormulario(false);
@@ -116,22 +116,48 @@ const Reservas = () => {
     setReservas(reservas.map(r =>
       r.id === reserva.id ? { ...r, checkInRealizado: true } : r
     ));
-    setReservaAtual(null); // Fechar o formulário de check-in após a confirmação
+    setReservaAtual(null);
   };
 
   const handleCheckOut = (reserva) => {
     setReservas(reservas.filter(r => r.id !== reserva.id));
+    onCheckOut(reserva); // Chama a função para adicionar ao check-out
   };
 
-  // Ordenar as reservas para que as com check-in realizado fiquem no topo
   const reservasOrdenadas = [...reservas].sort((a, b) => b.checkInRealizado - a.checkInRealizado);
+
+  const handleCpfCnpjChange = (event) => {
+    let data = event.target.value.replace(/\D/g, "");
+    if (data.length > 11) {
+      let cnpj = `${data.substr(0, 2)}.${data.substr(2,3)}.${data.substr(5,3)}/`;
+      if (data.length > 12)
+        cnpj += `${data.substr(8, 4)}-${data.substr(12, 2)}`;
+      else
+        cnpj += data.substr(8);
+      data = cnpj;
+    } else {
+      let cpf = "";
+      let parts = Math.ceil(data.length / 3);
+      for (let i = 0; i < parts; i++) {
+        if (i === 3) {
+          cpf += `-${data.substr(i * 3)}`;
+          break;
+        }
+        cpf += `${i !== 0 ? "." : ""}${data.substr(i * 3, 3)}`;
+      }
+      data = cpf;
+    }
+    setNovoHospede((values)=>( {...values, cpf: data}));
+  };
+
+  console.log(novoHospede)
 
   return (
     <div className="container mt-4">
       <h1>Lista de Reservas</h1>
 
       {reservaAtual && (
-        <CheckIn 
+        <CheckIn
           reserva={reservaAtual}
           onVoltar={() => setReservaAtual(null)}
           onConfirmCheckIn={handleConfirmCheckIn}
@@ -178,7 +204,7 @@ const Reservas = () => {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>CPF</Form.Label>
+            <Form.Label>CPF ou CNPJ</Form.Label>
             <Form.Control
               type="text"
               name="cpf"
@@ -215,7 +241,7 @@ const Reservas = () => {
             <Form.Control
               type="number"
               name="numeroCriancas"
-              value={novoHospede.numeroCriancas}
+              value={novoHospede.numeroCrianca}
               onChange={handleInputChange}
               required
             />
@@ -226,7 +252,7 @@ const Reservas = () => {
             <Form.Control
               type="number"
               name="numeroAdultos"
-              value={novoHospede.numeroAdultos}
+              value={novoHospede.numeroAdulto}
               onChange={handleInputChange}
               required
             />
@@ -237,7 +263,7 @@ const Reservas = () => {
             <Form.Control
               type="number"
               name="numeroQuartos"
-              value={novoHospede.numeroQuartos}
+              value={novoHospede.numeroQuarto}
               onChange={handleInputChange}
               required
             />
@@ -256,7 +282,7 @@ const Reservas = () => {
             <th>Nome</th>
             <th>Email</th>
             <th>Telefone</th>
-            <th>CPF</th>
+            <th>CPF ou CNPJ</th>
             <th>Data de Check-in</th>
             <th>Data de Check-out</th>
             <th>Número de Crianças</th>
@@ -275,9 +301,9 @@ const Reservas = () => {
               <td>{reserva.cpf}</td>
               <td>{formatarData(reserva.dataCheckin)}</td>
               <td>{formatarData(reserva.dataCheckout)}</td>
-              <td>{reserva.numeroCriancas}</td>
-              <td>{reserva.numeroAdultos}</td>
-              <td>{reserva.numeroQuartos}</td>
+              <td>{reserva.numeroCrianca}</td>
+              <td>{reserva.numeroAdulto}</td>
+              <td>{reserva.numeroQuarto}</td>
               <td>
                 {!reserva.checkInRealizado && (
                   <Button
