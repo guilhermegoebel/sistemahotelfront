@@ -28,4 +28,3 @@ const CheckIn = ({ reserva, onVoltar, onConfirmCheckIn }) => {
 };
 
 export default CheckIn;
-//check-in funcional
