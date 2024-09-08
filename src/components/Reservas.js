@@ -209,7 +209,7 @@ const Reservas = ({ onCheckOut }) => {
               type="text"
               name="cpf"
               value={novoHospede.cpf}
-              onChange={handleInputChange}
+              onChange={handleCpfCnpjChange}
               required
             />
           </Form.Group>
@@ -240,7 +240,7 @@ const Reservas = ({ onCheckOut }) => {
             <Form.Label>Número de Crianças</Form.Label>
             <Form.Control
               type="number"
-              name="numeroCriancas"
+              name="numeroCrianca" // Corrigido
               value={novoHospede.numeroCrianca}
               onChange={handleInputChange}
               required
@@ -251,7 +251,7 @@ const Reservas = ({ onCheckOut }) => {
             <Form.Label>Número de Adultos</Form.Label>
             <Form.Control
               type="number"
-              name="numeroAdultos"
+              name="numeroAdulto" // Corrigido
               value={novoHospede.numeroAdulto}
               onChange={handleInputChange}
               required
@@ -262,7 +262,7 @@ const Reservas = ({ onCheckOut }) => {
             <Form.Label>Número de Quartos</Form.Label>
             <Form.Control
               type="number"
-              name="numeroQuartos"
+              name="numeroQuarto" // Corrigido
               value={novoHospede.numeroQuarto}
               onChange={handleInputChange}
               required
