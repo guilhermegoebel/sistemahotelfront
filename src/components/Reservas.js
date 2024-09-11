@@ -4,17 +4,21 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Reservas.css';
 
-const Reservas = ({ onCheckIn }) => {
+const Reservas = () => {
   const [reservas, setReservas] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
+
   const [novoHospede, setNovoHospede] = useState({
-    nomeHospede: '',
-    identification: '',
+    nome: '',
     email: '',
-    checkIn: '',
-    checkOut: '',
-    quarto: '',
+    telefone: '',
+    identification: '',
+    data_checkin: '',
+    data_checkout: '',
+    numero_criancas: '',
+    numero_adultos: '',
+    numero_quartos: '',
     detalhesRelevantes: '',
   });
 
@@ -29,7 +33,7 @@ const Reservas = ({ onCheckIn }) => {
   const isFormValid = () => {
     return (
       novoHospede.nomeHospede !== '' &&
-      novoHospede.cpf !== '' &&
+      novoHospede.identification !== '' &&
       novoHospede.email !== '' &&
       novoHospede.checkIn !== '' &&
       novoHospede.checkOut !== '' &&
@@ -38,30 +42,14 @@ const Reservas = ({ onCheckIn }) => {
     );
   };
 
-  const isDuplicateHospede = () => {
-    return reservas.some(
-      (reserva) => reserva.nomeHospede.toLowerCase() === novoHospede.nomeHospede.toLowerCase()
-    );
-  };
 
   const handleAddReserva = () => {
     if (!isFormValid()) {
       alert('Preencha todos os campos antes de adicionar a reserva.');
       return;
     }
+    console.log(novoHospede)
 
-    if (isDuplicateHospede()) {
-      alert('Este hóspede já existe. Por favor, use um nome diferente.');
-      return;
-    }
-
-    const novaReserva = {
-      ...novoHospede,
-      id: reservas.length + 1,
-    };
-
-    setReservas([...reservas, novaReserva]);
-    setNovoHospede({ nomeHospede: '', cpf: '', email: '', checkIn: '', checkOut: '', quarto: '', detalhesRelevantes: '' });
     setMostrarFormulario(false);
   };
 
@@ -96,7 +84,6 @@ const Reservas = ({ onCheckIn }) => {
     setNovoHospede((values)=>( {...values, identification: data}));
   };
 
-  console.log(novoHospede)
 
   return (
     <div className="container mt-4">
@@ -105,15 +92,14 @@ const Reservas = ({ onCheckIn }) => {
       <Button variant="primary" onClick={() => setMostrarFormulario(!mostrarFormulario)}>
         {mostrarFormulario ? 'Fechar Formulário' : 'Adicionar Reserva'}
       </Button>
-
       {mostrarFormulario && (
         <Form className="mb-4 mt-4">
           <Form.Group>
             <Form.Label>Nome do Hóspede</Form.Label>
             <Form.Control
               type="text"
-              name="nomeHospede"
-              value={novoHospede.nomeHospede}
+              name="nome"
+              value={novoHospede.nome}
               onChange={handleInputChange}
               required
             />
@@ -140,13 +126,23 @@ const Reservas = ({ onCheckIn }) => {
               required
             />
           </Form.Group>
+          <Form.Group>
+            <Form.Label>Telefone</Form.Label>
+            <Form.Control
+              type="text"
+              name="telefone"
+              value={novoHospede.telefone}
+              onChange={handleInputChange}
+              required
+            />
+          </Form.Group>
 
           <Form.Group>
             <Form.Label>Data de Check-in</Form.Label>
             <Form.Control
               type="date"
-              name="checkIn"
-              value={novoHospede.checkIn}
+              name="data_checkin"
+              value={novoHospede.data_checkin}
               onChange={handleInputChange}
               required
             />
@@ -156,19 +152,39 @@ const Reservas = ({ onCheckIn }) => {
             <Form.Label>Data de Check-out</Form.Label>
             <Form.Control
               type="date"
-              name="checkOut"
-              value={novoHospede.checkOut}
+              name="data_checkout"
+              value={novoHospede.data_checkout}
               onChange={handleInputChange}
               required
             />
           </Form.Group>
 
           <Form.Group>
+            <Form.Label>Número crianças</Form.Label>
+            <Form.Control
+              type="number"
+              name="numero_criancas"
+              value={novoHospede.numero_criancas}
+              onChange={handleInputChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Número adultos</Form.Label>
+            <Form.Control
+              type="number"
+              name="numero_adultos"
+              value={novoHospede.numero_adultos}
+              onChange={handleInputChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
             <Form.Label>Quarto</Form.Label>
             <Form.Control
               type="number"
-              name="quarto"
-              value={novoHospede.quarto}
+              name="numero_quartos"
+              value={novoHospede.numero_quartos}
               onChange={handleInputChange}
               required
             />
@@ -214,7 +230,7 @@ const Reservas = ({ onCheckIn }) => {
               <td>{reserva.detalhesRelevantes}</td>
               <td>
                 <div className="btn-group">
-                  <Button variant="success" onClick={() => onCheckIn(reserva)} className="btn">Check-in</Button>
+                  <Button variant="success" className="btn">Check-in</Button>
                 </div>
               </td>
             </tr>

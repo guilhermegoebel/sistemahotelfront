@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 import Reservas from './components/Reservas.js';
 import CheckIn from './components/Check-in.js';
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
 function App() {
-  const [reservaSelecionada, setReservaSelecionada] = useState(null);
-
-  const handleCheckIn = (reserva) => {
-    setReservaSelecionada(reserva);
-  };
-
-  const handleVoltar = () => {
-    setReservaSelecionada(null);
-  };
 
   return (
     <div className="App">
-      {reservaSelecionada ? (
-        <CheckIn reserva={reservaSelecionada} onVoltar={handleVoltar} />
-      ) : (
-        <Reservas onCheckIn={handleCheckIn} />
-      )}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/reservas" element={ <Reservas />} />
+          <Route path="/checkin/:id" element={ <CheckIn />} />
+
+          <Route path="*" element={<Navigate to="/reservas" replace />} />
+        </Routes>
+      </BrowserRouter>
+
     </div>
   );
 }
