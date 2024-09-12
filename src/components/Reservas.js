@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Reservas.css';
+import api from "../services/api";
 
 const Reservas = () => {
   const [reservas, setReservas] = useState([]);
@@ -13,7 +14,7 @@ const Reservas = () => {
     nome: '',
     email: '',
     telefone: '',
-    identification: '',
+    cpf: '',
     data_checkin: '',
     data_checkout: '',
     numero_criancas: '',
@@ -33,7 +34,7 @@ const Reservas = () => {
   const isFormValid = () => {
     return (
       novoHospede.nomeHospede !== '' &&
-      novoHospede.identification !== '' &&
+      novoHospede.cpf !== '' &&
       novoHospede.email !== '' &&
       novoHospede.checkIn !== '' &&
       novoHospede.checkOut !== '' &&
@@ -48,9 +49,21 @@ const Reservas = () => {
       alert('Preencha todos os campos antes de adicionar a reserva.');
       return;
     }
-    console.log(novoHospede)
+    api.post('api/reserva' ,novoHospede).then(value => alert('Salvo')).catch(reason => alert('erro'))
 
     setMostrarFormulario(false);
+    setNovoHospede({
+      nome: '',
+      email: '',
+      telefone: '',
+      cpf: '',
+      data_checkin: '',
+      data_checkout: '',
+      numero_criancas: '',
+      numero_adultos: '',
+      numero_quartos: '',
+      detalhesRelevantes: '',
+    })
   };
 
   // Função para formatar a data
@@ -81,9 +94,18 @@ const Reservas = () => {
       }
       data = cpf;
     }
-    setNovoHospede((values)=>( {...values, identification: data}));
+    setNovoHospede((values)=>( {...values, cpf: data}));
   };
 
+  const consultarApi = () => {
+    api.get('api/reserva').then(value => {
+      setReservas(value.data)
+    })
+  }
+
+  useEffect(() => {
+    consultarApi()
+  }, []);
 
   return (
     <div className="container mt-4">
@@ -109,8 +131,8 @@ const Reservas = () => {
             <Form.Label>CPF/CNPJ</Form.Label>
             <Form.Control
               type="text"
-              name="identification"
-              value={novoHospede.identification}
+              name="cpf"
+              value={novoHospede.cpf}
               onChange={handleCpfCnpjChange}
               required
             />
@@ -190,16 +212,16 @@ const Reservas = () => {
             />
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label>Detalhes Relevantes</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="detalhesRelevantes"
-              value={novoHospede.detalhesRelevantes}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
+          {/*<Form.Group>*/}
+          {/*  <Form.Label>Detalhes Relevantes</Form.Label>*/}
+          {/*  <Form.Control*/}
+          {/*    as="textarea"*/}
+          {/*    name="detalhesRelevantes"*/}
+          {/*    value={novoHospede.detalhesRelevantes}*/}
+          {/*    onChange={handleInputChange}*/}
+          {/*    required*/}
+          {/*  />*/}
+          {/*</Form.Group>*/}
 
           <Button variant="primary" onClick={handleAddReserva}>
             Adicionar Reserva
@@ -215,22 +237,34 @@ const Reservas = () => {
             <th>Data de Check-in</th>
             <th>Data de Check-out</th>
             <th>Quarto</th>
-            <th>Detalhes Relevantes</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           {reservas.map((reserva) => (
-            <tr key={reserva.id}>
-              <td>{reserva.id}</td>
-              <td>{reserva.nomeHospede}</td>
-              <td>{formatarData(reserva.checkIn)}</td>
-              <td>{formatarData(reserva.checkOut)}</td>
-              <td>{reserva.quarto}</td>
-              <td>{reserva.detalhesRelevantes}</td>
+            <tr key={reserva.id_reserva}>
+              <td>{reserva.id_reserva}</td>
+              <td>{reserva.nome}</td>
+              <td>{formatarData(reserva.data_checkin)}</td>
+              <td>{formatarData(reserva.data_checkout)}</td>
+              <td>{reserva.numero_quartos}</td>
               <td>
                 <div className="btn-group">
-                  <Button variant="success" className="btn">Check-in</Button>
+
+                  {
+                      !reserva?.checkin_confirmado &&
+                      <a href={`/checkin/${reserva.id_reserva}`}>
+                        <Button variant="success" className="btn">Check-in</Button>
+                      </a>
+                  }
+                  {
+                      (reserva?.checkin_confirmado && !reserva?.checkout_confirmado) &&
+                      <a href={`/checkout/${reserva.id_reserva}`}>
+                        <Button variant="success" className="btn">Check-out</Button>
+                      </a>
+                  }
+
+
                 </div>
               </td>
             </tr>
